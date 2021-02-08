@@ -1,0 +1,39 @@
+body {
+  background: radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 8px 8px,
+    radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255, 255, 255, 0.1) 15%, transparent 20%) 8px 9px !important;
+  background-color: hsl(0, 0%, 16%) !important;
+  background-size: 16px 16px !important;
+}
+
+.reveal .inbl {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.reveal .noborder {
+  border: none;
+  background: transparent;
+}
+
+.reveal li {
+  list-style-type: none;
+}
+
+.reveal li:before {
+  margin-right: 10px;
+  content: "\A4 \ ";
+  /* caractère ISO 10646 */
+}
+
+.reveal a {
+  color: gold !important;
+  text-decoration: underline;
+}
+
+.reveal a:hover,
+.reveal a:focus,
+.reveal a:visited {
+  text-decoration: none;
+}

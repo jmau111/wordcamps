@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>WP TECH 2014 : L'API HTTP</title>
+
+    <meta name="description" content="L'API HTTP pour vos appels serveur à serveur">
+    <meta name="author" content="Julien Maury">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../dist/reset.css">
+    <link rel="stylesheet" href="../dist/reveal.css">
+    <link rel="stylesheet" href="../dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="../plugin/highlight/zenburn.css" id="highlight-theme">
+    <link rel="stylesheet" href="../dist/theme/custom/wptech.css">
+</head>
+
+<body>
+
+    <div class="reveal">
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section>
+                <h1>L'API HTTP</h1>
+                <h3>Le transporteur</h3>
+                <p>
+                    <small>par <a href="https://julien-maury.dev">Julien
+                            Maury</a> / <a href="https://github.com/jmau111">jmau111</a>
+                        / développeur</small>
+                </p>
+            </section>
+            <section data-transition="linear" data-background="" data-background-transition="slide">
+                <section>
+                    <h2>Une API ?</h2>
+                    <br>
+                    <div>
+                        <img class="inbl" width="400" height="227" src="img/happy.jpg" alt="">
+                        <!--
+                         -->
+                        <ul class="inbl">
+                            <li>ressources via URLs</li>
+                            <li>lecture et/ou écriture</li>
+                            <li>méthodes et fonctions</li>
+                        </ul>
+                    </div>
+                </section>
+                <section>
+                    <h2>Dialogue, remote ?</h2>
+                    <br>
+                    <pre><code style="width:100%; font-size: 15px; margin-top: 20px;">
+    POST /1/statuses/update.json?include_entities=true HTTP/1.1
+    Accept: */*
+    Connection: close
+    User-Agent: OAuth gem v0.4.4
+    Content-Type: application/x-www-form-urlencoded
+    Authorization: 
+            OAuth oauth_consumer_key="xvz1evFS4wEEPTGEFPHBog", 
+                  oauth_nonce="kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg", 
+                  oauth_signature="tnnArxj06cWHq44gCs1OSKk%2FjLY%3D", 
+                  oauth_signature_method="HMAC-SHA1", 
+                  oauth_timestamp="1318622958", 
+                  oauth_token="370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb", 
+                  oauth_version="1.0"
+    Content-Length: 76
+    Host: api.twitter.com
+    
+    status=Hello%20Ladies%20%2b%20Gentlemen%2c%20a%20signed%20OAuth%20request%21
+                            </code></pre>
+                </section>
+                <section>
+                    <h2>Le transport en PHP</h2>
+                    <ol>
+                        <li>La classe <a href="http://php.net/manual/fr/class.httprequest.php" title="">HTTPRequest de
+                                PHP</a></li>
+                        <li><a href="http://php.net/manual/fr/book.curl.php" title="">cURL</a></li>
+                        <li>streams</li>
+                        <li>fopen</li>
+                        <li>fsocket</li>
+                    </ol>
+                </section>
+            </section>
+            <section data-transition="linear" data-background="" data-background-transition="slide">
+                <h2>Les problèmes</h2>
+                <br>
+                <div>
+                    <img class="inbl" width="400" height="227" src="img/crash.jpg" alt="">
+                    <!--					
+                        -->
+                    <ul class="inbl">
+                        <li>un serveur, une config</li>
+                        <li>perf / plantage</li>
+                        <li>bonnes pratiques</li>
+                    </ul>
+                </div>
+            </section>
+            <section data-transition="linear" data-background="" data-background-transition="slide">
+                <h2>Le dév en express</h2>
+                <ul>
+                    <li>turbo!</li>
+                    <li>Le dév simplifié</li>
+                    <li>succès =&gt; tableau, échec =&gt; <a href="http://codex.wordpress.org/Glossary#WP_Error"
+                            title="">WP_error</a></li>
+                </ul>
+            </section>
+            <section data-transition="linear" data-background="" data-background-transition="slide">
+                <section>
+                    <h2>Les outils de l'API</h2>
+                    <br>
+                    <ul>
+                        <li><a href="http://codex.wordpress.org/Function_Reference/wp_remote_request"
+                                title="">wp_remote_request()</a></li>
+                        <li>les alias : <a href="http://codex.wordpress.org/Function_Reference/wp_remote_get"
+                                title="Function Reference/wp remote get">wp_remote_get()</a>, <a
+                                href="http://codex.wordpress.org/Function_Reference/wp_remote_post"
+                                title="Function Reference/wp remote post">wp_remote_post()</a>, <a
+                                href="http://codex.wordpress.org/Function_Reference/wp_remote_head"
+                                title="Function Reference/wp remote head">wp_remote_head()</a></li>
+                        <li>les autres helpers : <a
+                                href="/web/20150403095111/http://tweetpressfr.github.io/Function_Reference/wp_remote_retrieve_body"
+                                title="Function Reference/wp remote retrieve body">wp_remote_retrieve_body()</a>, <a
+                                href="http://codex.wordpress.org/Function_Reference/wp_remote_retrieve_response_code"
+                                title="Function Reference/wp remote retrieve response code">wp_remote_retrieve_response_code()</a>,
+                            <a href="http://codex.wordpress.org/Function_Reference/wp_remote_retrieve_response_message"
+                                title="Function Reference/wp remote retrieve response message">wp_remote_retrieve_response_message()</a>
+                        </li>
+                        <li>actions / filtres (série des use) / constantes (proxys, allowed hosts)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Déboguer l'API HTTP</h2>
+                    <br>
+                    <pre><code style="width:100%; font-size: 15px; margin-top: 20px;">
+    add_action( 'http_api_debug', 'viper_http_api_debug', 10, 5 );
+    function viper_http_api_debug( $response, $type, $class, $args, $url ) {
+    
+        error_log( 'Request URL: ' . var_export( $url, true ) );
+        error_log( 'Request Args: ' . var_export( $args, true ) );
+        error_log( 'Request Response : ' . var_export( $response, true ) );
+    }
+                        </code></pre>
+
+                    <p><a
+                            href="http://www.viper007bond.com/2012/11/02/debugging-wordpress-http-api-remote-requests/">Source</a>
+                    </p>
+                </section>
+            </section>
+            <section>
+                <h2>Démo</h2>
+
+                <a href="https://travis-ci.org/WP-API/WP-API">
+                    <figure>
+                        <img width="79" height="25" src="https://travis-ci.org/WP-API/WP-API.svg?branch=master"
+                            alt="Build Status">
+                        <figcaption>WP JSON REST API</figcaption>
+                    </figure>
+                </a>
+
+            </section>
+            <section>
+                <h2>Le cache !</h2>
+                <ul>
+                    <li>quotas APIs / performances </li>
+                    <li>transients / CRON / TLC</li>
+                </ul>
+            </section>
+
+        </div>
+
+    </div>
+    <script src="../dist/reveal.js"></script>
+    <script src="../plugin/zoom/zoom.js"></script>
+    <script src="../plugin/notes/notes.js"></script>
+    <script src="../plugin/search/search.js"></script>
+    <script src="../plugin/markdown/markdown.js"></script>
+    <script src="../plugin/highlight/highlight.js"></script>
+    <script>
+
+        // Also available as an ES module, see:
+        // https://revealjs.com/initialization/
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+        });
+
+    </script>
+</body>
+
+</html>
